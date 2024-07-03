@@ -24,6 +24,33 @@ const createTask = async(title, description, dueDate, priority, createdBy, editP
     }
 }
 
+// Function to create a new Note
+const createNotes = async(taskId, userId, note)=>{
+    try {
+        await db.execute('INSERT INTO notes (task_id, user_id, note)',[taskId, userId, note])
+    } catch (error) {
+        console.error(error)
+        throw error        
+    }
+}
+
+// Function to get all notes by a task
+const getNoteById = async(taskId)=>{
+    try {
+        const [res] = await db.execute('SELECT * FROM notes WHERE task_id = ?',[taskId])
+
+        return res
+    } catch (error) {
+        console.error(error)        
+    }   
+}
+
+// Function to delete a note
+const deleteNote = async (noteId) => {
+    const query = 'DELETE FROM notes WHERE id = ?';
+    await db.promise().execute(query, [noteId]);
+};
+
 const getAllTasks = async () => {
     try {
       const [rows] = await db.execute(`
@@ -81,5 +108,8 @@ module.exports = {
     createTask,
     getAllTasks,
     deleteTask,
-    getTaskById
+    getTaskById,
+    createNotes,
+    getNoteById,
+    deleteNote
 }
