@@ -63,6 +63,7 @@ router.post('/:id/create', authenticateToken, async(req,res)=>{
     await createNotes(taskId, userId, newNote, username);
     res.status(201).json({ message: 'Note created successfully' });
     } catch (error) {
+        
       console.error('Failed to create note:'.error)
       res.status(500).json({ error: 'Failed to create note' });
     }
