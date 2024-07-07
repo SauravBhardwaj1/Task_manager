@@ -1,5 +1,7 @@
-const db = require('../config/db');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
+const { db } = require('../config/config');
+
+require('dotenv').config();
 
 const createUser = async (username, password) => {
   const hashedPassword = await bcrypt.hash(password, 10);

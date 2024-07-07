@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { jwtSecret } = require('../config/config');
 require('dotenv').config
 
 const authenticateToken = async(req,res,next)=>{
@@ -7,11 +8,14 @@ const authenticateToken = async(req,res,next)=>{
      
     if(token == null) return res.sendStatus(401)
 
-    jwt.verify( token, process.env.JWT_SECRET, (err, user)=>{
-        if(err) return res.sendStatus(403)
-        req.user = user
-        next()
+    jwt.verify( token, jwtSecret, (err, user)=>{
+        if (err) {
+            console.error('JWT verification error:', err);
+            return res.status(403).json({ error: 'Invalid token' });
+          }
+          req.user = user;
+          next();
     })
 }
 
-module.exports = authenticateToken;
+module.exports = {authenticateToken};
