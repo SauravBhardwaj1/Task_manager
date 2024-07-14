@@ -1,6 +1,6 @@
 
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import './App.css';
+import './styles/App.css';
 import DashBoard from './pages/DashBoard';
 import { useEffect, useState } from 'react';
 import authService from './services/authService';

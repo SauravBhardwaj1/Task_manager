@@ -1,9 +1,9 @@
 import React from 'react'
 
-const EditTaskFom = () => {
+const EditTaskForm = () => {
   return (
     <div>EditTaskFom</div>
   )
 }
 
-export default EditTaskFom
+export default EditTaskForm

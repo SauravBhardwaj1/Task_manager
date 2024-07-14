@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-const api_url = 'http://localhost:8000/api/tasks'
+const api_url = 'http://localhost:5000/api/tasks'
 
 // Function to create all tasks
 const createTask = async (task)=>{
