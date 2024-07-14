@@ -1,8 +1,13 @@
+require('dotenv').config();
 const express = require('express')
-const { createUser, findUserByUsername } = require('../models/userModel')
-const { authenticateToken } = require('../middleware/Auth')
-
+const { createUser, findUserByUsername, updatePassword } = require('../models/userModel')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const config = require('../config/config');
+const { authenticateToken } = require('../middleware/auth');
 const router = express.Router()
+const mysql = require('mysql2/promise');
+const db = require('../config/db')
 
 router.post('/register', async(req,res)=>{
     const {username, password} = req.body
@@ -18,16 +23,17 @@ router.post('/login', async(req,res)=>{
     const {username, password} = req.body
     try {
         const user = await findUserByUsername(username)
-        if(!user) return res.status(401).json({message: 'Invalid username'})
+        if (!user) return res.status(400).send('Cannot find user');
 
         const validPassword = await bcrypt.compare(password, user.password)
-        if(!validPassword) return res.status(401).json({message: 'Invalid password'})
+        if(!validPassword) return res.status(401).send('Invalid password')
 
-        const token = jwt.sign({ id:user.id, role: user.role}, process.env.JWT_SECRET, { expiresIn: '1h'})
+        const token = jwt.sign({ id:user.id}, process.env.JWT_SECRET, { expiresIn: '1h'})
         console.log("token",token)
         res.status(200).json({token, user})
     } catch (error) {
-        console.error('Failed to login', error.message)
+        console.error('Server error during login:', err);
+        res.status(500).send('Server error');
     }
 })
 

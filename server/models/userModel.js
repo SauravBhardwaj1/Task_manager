@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
-const { db } = require('../config/config');
-
+const mysql = require('mysql2/promise');
+const config = require('../config/config');
+const db = mysql.createPool(config.db);
 require('dotenv').config();
 
 const createUser = async (username, password) => {
