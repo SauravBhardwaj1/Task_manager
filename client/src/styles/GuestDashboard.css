@@ -1,0 +1,43 @@
+.guest-dashboard {
+    padding: 20px;
+    background-color: #121213;
+    color: #fafafa;
+  }
+  
+  .guest-dashboard h2 {
+    margin-bottom: 20px;
+    color: #fafafa;
+  }
+  
+  .guest-dashboard .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .guest-dashboard .text-content {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .guest-dashboard .image-content {
+    flex: 1;
+  }
+  
+  .guest-dashboard .image-content img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .guest-dashboard ul {
+    color: rgb(255, 255, 255);
+    font-family: cursive;
+}
+
+  .guest-dashboard p {
+    color: rgb(255, 255, 255);
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: inherit;
+    font-weight: bold;
+    font-size: 20px;
+}
