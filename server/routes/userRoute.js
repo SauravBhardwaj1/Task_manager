@@ -4,10 +4,10 @@ const { createUser, findUserByUsername, updatePassword } = require('../models/us
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
-const { authenticateToken } = require('../middleware/auth');
 const router = express.Router()
 const mysql = require('mysql2/promise');
-const db = require('../config/db')
+const db = require('../config/db');
+const { authenticateToken } = require('../middleware/Auth');
 
 router.post('/register', async(req,res)=>{
     const {username, password} = req.body
@@ -19,23 +19,23 @@ router.post('/register', async(req,res)=>{
     }
 })
 
-router.post('/login', async(req,res)=>{
-    const {username, password} = req.body
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
     try {
-        const user = await findUserByUsername(username)
-        if (!user) return res.status(400).send('Cannot find user');
-
-        const validPassword = await bcrypt.compare(password, user.password)
-        if(!validPassword) return res.status(401).send('Invalid password')
-
-        const token = jwt.sign({ id:user.id}, process.env.JWT_SECRET, { expiresIn: '1h'})
-        console.log("token",token)
-        res.status(200).json({token, user})
-    } catch (error) {
-        console.error('Server error during login:', err);
+      const user = await findUserByUsername(username);
+      if (!user) return res.status(400).send('Cannot find user');
+  
+      const validPassword = await bcrypt.compare(password, user.password);
+      if (!validPassword) return res.status(403).send('Invalid credentials');
+  
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      console.log("token: " + token);
+      res.json({ token, user });
+    } catch (err) {
+      console.error('Server error during login:', err);
         res.status(500).send('Server error');
     }
-})
+  });
 
 router.get('/me', authenticateToken, async(req,res)=>{
     const userId = req.user.id

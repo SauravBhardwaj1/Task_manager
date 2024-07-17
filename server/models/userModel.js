@@ -11,9 +11,14 @@ const createUser = async (username, password) => {
 };
 
 const findUserByUsername = async (username) => {
-  const [rows] = await db.execute('SELECT * FROM users WHERE username = ?', [username]);
+  const [rows] = await db.execute(
+    'SELECT * FROM users WHERE username = ?', 
+    [username]
+  );
+  console.log("rows",rows[0])
   return rows[0];
 };
+
 
 const findUserById = async (id) => {
   const [rows] = await db.execute('SELECT * FROM users WHERE id = ?', [id]);
