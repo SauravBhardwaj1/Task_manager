@@ -11,6 +11,7 @@ const register = async(username, password)=>{
 
 
 const login = async(username, password)=>{
+  console.log("rss", username, password)
   const response = await axios.post(`${api_url}/login`, {username, password})
 
   if(response.data.token){
