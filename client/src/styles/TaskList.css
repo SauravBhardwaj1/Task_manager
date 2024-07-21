@@ -112,4 +112,20 @@
     background-color: #e6c200;
     font-weight: bold;
   }
+  @media (max-width: 767px) {
+    .task-item {
+      width: 100%;
+    }
+  }
   
+  @media (min-width: 768px) {
+    .task-item {
+      width: calc(50% - 1rem);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .task-item {
+      width: calc(33% - 1rem);
+    }
+  }
