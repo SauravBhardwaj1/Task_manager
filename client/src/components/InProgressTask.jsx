@@ -1,5 +1,6 @@
 import React from 'react'
 import TaskList from './TaskList'
+import '../styles/InProgressTask.css'
 
 const InProgressTask = ({tasks, onEditClick, onDeleteClick, onStatusChange}) => {
 
