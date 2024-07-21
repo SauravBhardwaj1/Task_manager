@@ -1,0 +1,31 @@
+/* TaskHistory.css */
+.task-history {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    transition: all 0.3s ease;
+  }
+  
+  .task-history h3 {
+    margin-bottom: 20px;
+  }
+  
+  .task-history ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .task-history li {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .task-history li p {
+    margin: 5px 0;
+  }
+  
