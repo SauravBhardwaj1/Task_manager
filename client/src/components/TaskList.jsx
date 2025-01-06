@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {motion} from 'framer-motion'
 import '../styles/TaskList.css'
 import authService from '../services/authService'
@@ -9,23 +9,50 @@ const TaskList = ({ tasks, onEditClick, onDeleteClick,onStatusChange, currentUse
 
   const [usernames, setUsernames] = useState({})
   const [expandedTaskId, setExpandedTaskId] = useState(null)
-  const [assignedUsers, setAssignedUsers] = useState({});
-  console.log("asisi", assignedUsers)
+  const [repliedNoteNotification, setRepliedNoteNotification] = useState(()=>{
+    const savedNotifications = localStorage.getItem('repliedNoteNotification');
+    return savedNotifications ? JSON.parse(savedNotifications) : {};
+  })
 
-  const toggleExpand = (taskId)=>{
-    console.log("Toggling expand for taskId:", taskId);
-    setExpandedTaskId(expandedTaskId ===taskId ? null : taskId) 
-    fetchAssignedUsers(taskId)
+  const isOverdue = (dueDate, status)=>{
+    const currentDate = new Date();
+    return dueDate && new Date(dueDate) < currentDate && status !== 'Completed'
   }
+
+  const toggleExpand = useCallback((taskId)=>{
+    setExpandedTaskId((prevId)=> prevId === taskId ? null : taskId) 
+  },[])
+
+  const handleRepliedNotifications = useCallback((noteId, hasNewReplies)=>{
+    setRepliedNoteNotification((prev)=>{
+      const updatedNotifications = {...prev}
+      
+      if(hasNewReplies){
+        updatedNotifications[noteId] = true;
+      }else{
+        delete updatedNotifications[noteId];
+      }
+
+      localStorage.setItem('repliedNoteNotification', JSON.stringify(updatedNotifications));
+      return updatedNotifications
+    })
+  }, [])
+
+  const deduplicateTasks = (tasks) => {
+    const taskMap = new Map();
+    tasks.forEach((task) => taskMap.set(task.id, task));
+    return Array.from(taskMap.values());
+  };
+  
 
   useEffect(()=>{ 
     const fetchUsernames = async()=>{
       try {
         const users = await authService.getAllUsers()
-        const usernameMap = {}
-        users.forEach((user)=>{
-          usernameMap[user.id] = user.username
-        })
+        const usernameMap = users.reduce((acc, user) => {
+          acc[user.id] = user.username;
+          return acc;
+        }, {});
         setUsernames(usernameMap)
       } catch (error) {
         console.log("Failed to fetch usernames", error)        
@@ -34,17 +61,11 @@ const TaskList = ({ tasks, onEditClick, onDeleteClick,onStatusChange, currentUse
     fetchUsernames();
   },[])
 
-  const fetchAssignedUsers = async (taskId) => {
-    try {
-      const users = await taskService.getTaskAssignees(taskId);
-      setAssignedUsers((prevState) => ({ ...prevState, [taskId]: users }));
-    } catch (error) {
-      console.log("Failed to fetch assigned users", error);
-    }
-  };
+  const sortedTasks = deduplicateTasks([...tasks]).sort(
+    (a, b) => new Date(b.created_at || b.updated_at) - new Date(a.created_at || a.updated_at)
+  );
 
-  // console.log("usernames", usernames)
-
+  // console.log("Sorted tasks:", sortedTasks);
   if (!Array.isArray(tasks)) {
     return <div>No tasks available</div>;
   }
@@ -55,14 +76,18 @@ const TaskList = ({ tasks, onEditClick, onDeleteClick,onStatusChange, currentUse
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
+      
       {
-        tasks?.map((task)=>{
-          const assignedToUsers = assignedUsers[task.id] || [];
-          console.log('Rendering task with ID', assignedToUsers)
+        sortedTasks?.map((task)=>{
+          const assignedToUsers = task.assigned_to_usernames || "Not Assigned";
+          const overdue = isOverdue(task.due_date, task.status)
+
           return (
-              <li 
-                key={task.id} 
-                className={`task-item ${task.priority} ${expandedTaskId === task.id ? 'expanded' : ''}`} 
+            <React.Fragment key={task.id}>
+              <li  
+                className={`task-item ${task.priority} ${task.status.replace(/\s+/g, '')}
+                  
+                ${expandedTaskId === task.id ? 'expanded' : ''}`} 
                 style={{
                   backgroundColor: 'grey',
                   padding: '10px',
@@ -71,19 +96,44 @@ const TaskList = ({ tasks, onEditClick, onDeleteClick,onStatusChange, currentUse
                   marginBottom: '20px',
                   cursor:'pointer',
                   boxShadow: 'rgb(38, 57, 77) 0px 20px 30px -10px',
-                  transition: 'transform 0.3s ease, max-height 0.5s ease',
+                  transition: 'transform 0.5s ease, max-height 0.3s ease',
                   overflow: 'hidden',
-                  
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent:'space-between', 
                 }}
                 onClick={()=> toggleExpand(task.id)}
                 >
                   <div className="task-info">
+                    
+                    <div className="task-meta-info">
+                      {showAssignedTo && <span className="task-assigned-to">Assigned To: {assignedToUsers}</span>}
+                      {showAssignedBy && <span className="task-assigned-by">Assigned By: {usernames[task.assigned_by]}</span>}
+                      <span style={{backgroundColor: overdue? 'red' : '#f5a42a'}} className="task-due-date">Due: {task.due_date ? new Date(task.due_date).toLocaleDateString() : "No due date"} {overdue && <span> - Due date is over</span>}</span>
+                      <span className={`task-priority ${task.priority}`}>Priority: {task.priority}</span>
+                      <span className="task-status">
+                         Status: {""}
+                         <select value={task.status} onChange={(e) => onStatusChange(task.id, e.target.value)}>
+                           <option value="Pending">Pending</option>
+                           <option value="In Progress">In-Progress</option>
+                           <option value="Completed">Completed</option>
+                         </select>
+                       </span>
+                       <div className="task-actions">
+                       {task.can_edit === 1 && <button onClick={() => onEditClick(task)}>Edit</button>}
+                       {currentUser && (task.created_by === currentUser.id || task.can_edit) && (
+                         <button onClick={() => onDeleteClick(task.id)}>Delete</button>
+                       )}
+                     </div>
+                    </div>
                     <h4>Title: {task.title}</h4>
-                    <p>Task-{task.description}</p>
+                    {task.description.length ? (
+                      <p>Task-{task.description}</p>
+                    ): null}                 
                     {expandedTaskId === task.id &&(
                      <div className="task-details" onClick={(e)=>e.stopPropagation()}>
-                     <div className="task-meta">
-                       <span className={`task-priority ${task.priority}`}>Priority: {task.priority}</span>
+                     {/* <div className="task-meta">
+                       
                        <span className="task-status">
                          Status:
                          <select value={task.status} onChange={(e) => onStatusChange(task.id, e.target.value)}>
@@ -92,27 +142,26 @@ const TaskList = ({ tasks, onEditClick, onDeleteClick,onStatusChange, currentUse
                            <option value="Completed">Completed</option>
                          </select>
                        </span>
-                       <span className="task-due-date">Due: {new Date(task.due_date).toLocaleDateString()}</span>
-                       {showAssignedTo && <span className="task-assigned-to">Assigned to: {assignedToUsers.map(user => usernames[user.user_id]).join(', ') || 'Not Assigned'}</span>}
-                       {showAssignedBy && <span className="task-assigned-by">Assigned by: {usernames[task.assigned_by]}</span>}
-                     </div>
-                     {task.edited_by && (
-                       <p className="edit-info">Edited by {usernames[task.edited_by]} on {new Date(task.edited_at).toLocaleString()}</p>
-                     )}
-                     
-                     <div className="task-actions">
+                       <div className="task-actions">
                        {task.can_edit === 1 && <button onClick={() => onEditClick(task)}>Edit</button>}
                        {currentUser && (task.created_by === currentUser.id || task.can_edit) && (
                          <button onClick={() => onDeleteClick(task.id)}>Delete</button>
                        )}
                      </div>
-                     <Notes taskId={task.id} currentUser={currentUser} />
+                     </div> */}
+                     {task.edited_by && (
+                       <p className="edit-info">Edited by {usernames[task.edited_by]} on {new Date(task.edited_at).toLocaleString()}</p>
+                     )}
+                     
+                     
+                     <Notes key={`notes-${task.id}`} taskId={task.id} currentUser={currentUser} repliedNoteNotification={repliedNoteNotification} onRepliedNoteNotification={handleRepliedNotifications}/>
                    </div>
 
                  )}
                </div>
                     
                 </li>
+                </React.Fragment>
           )
           
         })

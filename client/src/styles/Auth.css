@@ -1,5 +1,5 @@
 .auth{
-    background-color: rgb(211, 211, 211);
+    background-color: rgb(43, 41, 41);
 }
 .auth-container {
     display: flex;
@@ -17,11 +17,15 @@
 }
 
 .auth-form {
-    background-color: #e6dcdc;
+    background-color: #494646;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
+.auth-form p{
+    cursor: pointer;
+    color: #ff9900;
+}
   
 .auth-container h2 {
     margin-bottom: 20px;

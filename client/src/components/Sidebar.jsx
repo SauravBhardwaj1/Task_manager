@@ -7,6 +7,7 @@ const Sidebar = ({ user }) => {
 
   return (
     <div className='sidebar'>
+      
         <h2>Welcome, {username}</h2>
         <p>This is task management 📝application. You can manage your tasks efficiently and track your progess.</p>
         

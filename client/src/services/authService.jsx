@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api_url = 'http://localhost:5000/api/users';
+const api_url = 'http://localhost:4000/api/users';
 
 
 const register = async(username, password)=>{
@@ -11,12 +11,11 @@ const register = async(username, password)=>{
 
 
 const login = async(username, password)=>{
-  console.log("rss", username, password)
   const response = await axios.post(`${api_url}/login`, {username, password})
 
   if(response.data.token){
     localStorage.setItem('token', response.data.token)
-    localStorage.setItem('taskUser', JSON.stringify(response.data) )
+    localStorage.setItem('user', JSON.stringify(response.data) )
   }
 
   return response.data
@@ -35,6 +34,8 @@ const getAllUsers = async()=>{
     const response = await axios.get(`${api_url}/all-users`, {
       headers: { Authorization: `Bearer ${token}` },
     });
+    
+    console.log("Fetched users:", response.data); 
     return response.data;
   } catch (error) {
     console.error('Error fetching users:', error);

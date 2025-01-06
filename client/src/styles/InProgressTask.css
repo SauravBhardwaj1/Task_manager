@@ -1,16 +1,16 @@
 /* InProgressTasks.css */
 
-.in-progress-tasks {
+/* .in-progress-tasks {
     padding: 20px;
-    background-color: #f9f9f9;
+    
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+  } */
   
   .in-progress-tasks h2 {
     margin-bottom: 20px;
     font-size: 24px;
-    color: #333;
+    color: #ffffff;
   }
   
   .in-progress-task-item {

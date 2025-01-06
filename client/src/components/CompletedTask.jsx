@@ -1,15 +1,17 @@
 import React from 'react'
 import TaskList from './TaskList'
 
-const CompletedTask = ({tasks, onStatusChange}) => {
+const CompletedTasks = ({ tasks, onDeleteClick, onStatusChange }) => {
 
-  const completedTasks = tasks.filter(task => task.status === 'completed')
+    const completedTask = tasks.filter((task)=> task.status === 'Completed')
   return (
     <div>
-      <h2>Completed Tasks</h2>
-      <TaskList tasks={completedTasks} onStatusChange={onStatusChange}/>
+        {!completedTask.length && (
+          <h2>No Completed Tasks</h2>
+        )}
+        <TaskList tasks={completedTask}  onStatusChange={onStatusChange} />
     </div>
   )
 }
 
-export default CompletedTask
+export default CompletedTasks

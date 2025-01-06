@@ -8,12 +8,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    z-index: 1100;
     overflow-y: auto;
 }
 
 .modal{
-
     background-color: #3b3f43;
     color: #f4f4f4;
     padding: 20px;
