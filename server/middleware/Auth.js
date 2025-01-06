@@ -3,6 +3,10 @@
 const jwt = require('jsonwebtoken');
 const { jwtSecret } = require('../config/config');
 
+const generateToken = (user) => {
+  return jwt.sign(user, jwtSecret, { expiresIn: '12h' });
+};
+
 const authenticateToken = (req, res, next) => {
   // const authHeader = req.headers['authorization'];
   const token = req.header('Authorization').split(' ')[1];
@@ -23,4 +27,5 @@ const authenticateToken = (req, res, next) => {
 
 module.exports = {
   authenticateToken,
+  generateToken
 };
