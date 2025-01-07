@@ -1,28 +1,38 @@
-![Screenshot (38)](https://github.com/user-attachments/assets/41461203-824c-4fcc-ae6c-e8d090127e24)![Screenshot (38)](https://github.com/user-attachments/assets/8f1334e3-f299-41ee-a185-2faed08ecb0e)<h1>📝📝Task Management app with the following features:</h1>
-<img src="https://github.com/user-attachments/assets/d9a9c57b-c539-43ae-a323-3585b93cade8" width="500px" />
+<h1>📝📝Task Management app with the following features:</h1>
+<img src="https://github.com/user-attachments/assets/efb5c451-0ff5-41ef-849a-45a7af17dbda" width="500px" />
 
 <h3>👉 Users can create tasks and can be assigned others to the task </h3>
 <h3>👉 Users can assign multiple users to the task </h3>
 <h3>👉 Users can give assigned users permission to edit and delete the task </h3>
-<h3>👉 On the dashboard, the user can see the USER TASK and ASSIGNED TASK separately </h3>
+<h3>👉 On the dashboard, the user can see the USER TASKS, ASSIGNED TASKS, COMPLETED TASKS & IN-PROGRESS TASKS separately </h3>
 <h3>👉 Users can see the edit history of the task to track who edited the task and when. </h3>
 <h3>👉 Users can toggle the status of the task after assigning </h3>
 <h3>👉 Users can see the completed task separately </h3>
-<h3>👉 Users can add notes to the task about what the update </h3>
+<h3>👉 Users will get the due date over notification on the particular task</h3>
+<h3>👉 Users can add notes or subtask to the task about what the update </h3>
+<h3>👉 Users can toggle the status of the notes or subtask adding to the particular task</h3>
+<h3>👉 Users can see the completed and pending notes or subtasks</h3>
+<h3>👉 Users can add replies to every note or subtask task about what the update </h3>
+<h3>👉 Only Created Users can delete the replies and subtasks</h3>
+<h3>👉 Added sockets.io for getting real-time notification for every note reply</h3>
+<h3>👉 Users will get the real-time bell icon notification for every note reply</h3>
 
 
 
  <h1>📝 Dashboard Page for all guest users</h1>
-<img src="https://github.com/user-attachments/assets/858399d2-3e49-4c4b-bad0-8532a97dcf48" />
+<img src="https://github.com/user-attachments/assets/936fa01a-6beb-4ab0-b475-3ded1a90e8da" />
 
 <h1>📝 Dashboard Page for users after successful login</h1>
-<img src="https://github.com/user-attachments/assets/d6d6320d-023f-42be-a562-a90eb94d6bf1" />
+<img src="https://github.com/user-attachments/assets/858399d2-3e49-4c4b-bad0-8532a97dcf48" />
 
 <h1>📝 TaskList after expanding</h1>
-<img src="https://github.com/user-attachments/assets/7ae8a47d-dbb6-46d8-ab4f-7b3ad3d7b868" />
+<img src="https://github.com/user-attachments/assets/efb5c451-0ff5-41ef-849a-45a7af17dbda" />
 
 <h1>📝 Tasklist with notes section and edited by section</h1>
-<img src="https://github.com/user-attachments/assets/13b36421-1c0c-4b06-b86f-45418840cd24" />
+<img src="https://github.com/user-attachments/assets/a4323e08-9ca1-44c8-b116-b84914d3c3c1" />
 
-<h1>📝 Noteslist section with addedby and date</h1>
-<img src="https://github.com/user-attachments/assets/68361d85-a400-4a91-85f1-805caa11b311" />
+<h1>📝 Noteslist section with reply feature for every note or task</h1>
+<img src="https://github.com/user-attachments/assets/1d60c227-cbe6-4508-b1a5-f2ed10c0d3c7" />
+
+<h1>📝 Create new task form</h1>
+<img src=https://github.com/user-attachments/assets/d9c61906-8383-467e-a016-20f73806ce52" />
