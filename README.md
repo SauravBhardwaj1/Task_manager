@@ -35,4 +35,4 @@
 <img src="https://github.com/user-attachments/assets/1d60c227-cbe6-4508-b1a5-f2ed10c0d3c7" />
 
 <h1>📝 Create new task form</h1>
-<img src=https://github.com/user-attachments/assets/d9c61906-8383-467e-a016-20f73806ce52" />
+<img src="https://github.com/user-attachments/assets/d9c61906-8383-467e-a016-20f73806ce52" />
