@@ -1,4 +1,4 @@
-<h1>📝📝Task Management app with the following features:</h1>
+![Screenshot (38)](https://github.com/user-attachments/assets/41461203-824c-4fcc-ae6c-e8d090127e24)![Screenshot (38)](https://github.com/user-attachments/assets/8f1334e3-f299-41ee-a185-2faed08ecb0e)<h1>📝📝Task Management app with the following features:</h1>
 <img src="https://github.com/user-attachments/assets/d9a9c57b-c539-43ae-a323-3585b93cade8" width="500px" />
 
 <h3>👉 Users can create tasks and can be assigned others to the task </h3>
@@ -13,7 +13,7 @@
 
 
  <h1>📝 Dashboard Page for all guest users</h1>
-<img src="https://github.com/user-attachments/assets/3d896891-b1f4-4185-9158-59dbde7fd9f7" />
+<img src="https://github.com/user-attachments/assets/858399d2-3e49-4c4b-bad0-8532a97dcf48" />
 
 <h1>📝 Dashboard Page for users after successful login</h1>
 <img src="https://github.com/user-attachments/assets/d6d6320d-023f-42be-a562-a90eb94d6bf1" />
